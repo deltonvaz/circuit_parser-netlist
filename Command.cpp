@@ -14,7 +14,7 @@ Command::Command(){
 };
 
 void Command::setCommand(String command){
-    if (d) cout << "\nComando setado como:" << command;
+    //if (d) cout << "\nComando setado como:" << command;
     this->command = command;
 };
 

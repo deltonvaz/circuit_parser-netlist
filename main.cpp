@@ -4,6 +4,7 @@
 #include <cstring>
 #include <list>
 #include <vector>
+#include <set>
 #include "Constants.h"
 #include "Comment.h"
 #include "Command.h"
@@ -11,21 +12,29 @@
 #include "Element.h"
 
 typedef std::list<Object*> ListaObj;
+//typedef std::vector<String> LabelList;
+typedef std::set<string> LabelList;
 
-int word_count(string s) {
-    int w = 0;
-    int l = s.length();
-    for(int i = 0; i < l; i++) {
-        if ((s[i-1] == ' ' || s[i-1] == '\0') && (s[i] != ' ')) w++;
-        if (s[i] == '\0') break;
-    }
-    return w;
+vector<string> split(const char *str, char c = ' ')
+{
+    vector<string> result;
+
+    do
+    {
+        const char *begin = str;
+
+        while(*str != c && *str)
+            str++;
+
+        result.push_back(string(begin, str));
+    } while (0 != *str++);
+
+    return result;
 }
 
 int main(int argc, const char * argv[]) {
-
-    typedef std::list<String*> LabelList;
     LabelList labels;
+    labels.insert("0"); //initialize vector
     ListaObj lista;
     vector<string> result;
     if (argc != 3) {
@@ -50,6 +59,7 @@ int main(int argc, const char * argv[]) {
             while(getline(inputFileStream, line))
             {
                 string token;
+                const char * c;
                 ++line_count;
                 istringstream iss(line);
                 cout << "\n" << line << "\n";
@@ -62,7 +72,6 @@ int main(int argc, const char * argv[]) {
                         //command.setCommand(word);
                         auto * command = new Command();
                         command->setCommand(word);
-                        cout << "\ncomando:" << word;
                         command->setType(COMMAND);
                         lista.push_back(command);
                         //lista->insert(command);
@@ -79,7 +88,20 @@ int main(int argc, const char * argv[]) {
                         if (d) cout << "\nresistor l:[" << line_count << "]";
                         auto *element = new Element();
                         element->setType(ELEMENT);
+                        element->setElementType("RES");
+                        c = line.c_str();
+                        result = split(c, ' ');
+                        element->setAlias(result[0].erase(0, 1));
+                        //Insert in labels list new aliases
+                        labels.insert(result[1]);
+                        labels.insert(result[2]);
+//                        element->setPositiveNode(result[1]);
+//                        element->setNegativeNode(result[2]);
+                        element->setValue(result[3]);
                         lista.push_back(element);
+
+
+                        cout << "\nSaida do parametro 0:" << result[0] << "\n";
                         break;
                     }
                     case 'C':
@@ -94,6 +116,28 @@ int main(int argc, const char * argv[]) {
                     case 'V':{
                         auto *element = new Element();
                         element->setType(ELEMENT);
+                        element->setElementType("VSR");
+                        c = line.c_str();
+                        result = split(c, ' ');
+                        element->setAlias(result[0].erase(0, 1));
+                        labels.insert(result[1]);
+                        labels.insert(result[2]);
+                        element->setValue(result[3]);
+                        lista.push_back(element);
+
+                    }
+                    case 'I':{
+                        auto *element = new Element();
+                        element->setType(ELEMENT);
+                        element->setElementType("ISR");
+                        c = line.c_str();
+                        result = split(c, ' ');
+                        element->setAlias(result[0].erase(0, 1));
+                        labels.insert(result[1]);
+                        labels.insert(result[2]);
+                        element->setPositiveNode(std::distance(labels.begin(), labels.find(result[1])));
+                        element->setNegativeNode(std::distance(labels.begin(), labels.find(result[2])));
+                        element->setValue(result[3]);
                         lista.push_back(element);
                     }
                     default:
@@ -146,14 +190,29 @@ int main(int argc, const char * argv[]) {
         }
         else if (object->getType() == ELEMENT){
             auto *element = (Element *) *iter;
-            printf("\n Tipo: %d\n", element->getType());
-            //printf("\nAQUI: %s", command->getCommand());
+            cout << "Element \t" <<
+                 element->getElementType() <<
+                 "[" <<
+                 element->getAlias() <<
+                 "]\t; n+[" <<
+                 element->getPositiveNode() <<
+                 "], n-[" <<
+                 element->getNegativeNode() <<
+                 "]; value=" <<
+                 element->getValue() <<
+                 "\n";
         }
 
         cont++;
         //cout << "aqui!" << object->getType();
     }
 
+    std::cout<<"Set Size = "<<labels.size()<<std::endl;
+    for (std::set<std::string>::iterator it=labels.begin(); it!=labels.end(); ++it)
+        std::cout << distance(labels.begin(), it)  << " : "  << *it << "\n";
+    std::cout<<"\n";
+
+    labels.clear();
     lista.clear();
 
     return 0;

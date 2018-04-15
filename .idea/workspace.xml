@@ -11,22 +11,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="80eee144-760e-4414-a8b4-1c1d5e2340c9" name="Default" comment="Commit de fix">
-      <change afterPath="$PROJECT_DIR$/Constants.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Object.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Object.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/t1Topicos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/t1Topicos.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+    <list default="true" id="80eee144-760e-4414-a8b4-1c1d5e2340c9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/Command.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Command.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Command.h" beforeDir="false" afterPath="$PROJECT_DIR$/Command.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Comment.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Comment.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Comment.h" beforeDir="false" afterPath="$PROJECT_DIR$/Comment.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Element.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Element.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Element.h" beforeDir="false" afterPath="$PROJECT_DIR$/Element.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/File.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/File.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/File.h" beforeDir="false" afterPath="$PROJECT_DIR$/File.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,11 +27,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="149" column="58" selection-start-line="149" selection-start-column="58" selection-end-line="149" selection-end-column="58" />
+            <state relative-caret-position="312">
+              <caret line="200" column="27" selection-start-line="200" selection-start-column="27" selection-end-line="200" selection-end-column="27" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -54,8 +42,8 @@
       <file leaf-file-name="Command.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Command.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="119">
+              <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -99,8 +87,8 @@
       <file leaf-file-name="Element.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Element.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="197">
+              <caret line="52" column="10" lean-forward="true" selection-start-line="52" selection-start-column="10" selection-end-line="52" selection-end-column="10" />
               <folding>
                 <element signature="e#37#54#0" expanded="true" />
               </folding>
@@ -117,7 +105,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Object.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Object.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Object.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
@@ -126,14 +114,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Constants.h">
+      <file leaf-file-name="File.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/File.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-              <folding>
-                <element signature="e#100#117#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="File.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/File.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
@@ -164,16 +158,16 @@
         <option value="$PROJECT_DIR$/Node.h" />
         <option value="$PROJECT_DIR$/Object.cpp" />
         <option value="$PROJECT_DIR$/List.h" />
-        <option value="$PROJECT_DIR$/Element.h" />
         <option value="$PROJECT_DIR$/Constants.h" />
         <option value="$PROJECT_DIR$/Command.h" />
-        <option value="$PROJECT_DIR$/Command.cpp" />
         <option value="$PROJECT_DIR$/Comment.h" />
         <option value="$PROJECT_DIR$/Comment.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Element.cpp" />
         <option value="$PROJECT_DIR$/List.cpp" />
         <option value="$PROJECT_DIR$/Object.h" />
+        <option value="$PROJECT_DIR$/Command.cpp" />
+        <option value="$PROJECT_DIR$/Element.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -252,7 +246,7 @@
       <workItem from="1523784040669" duration="1445000" />
       <workItem from="1523795345466" duration="248000" />
       <workItem from="1523796837846" duration="4379000" />
-      <workItem from="1523820582082" duration="5336000" />
+      <workItem from="1523820582082" duration="10781000" />
     </task>
     <task id="LOCAL-00001" summary="Commit de configuração">
       <created>1523770842333</created>
@@ -275,11 +269,18 @@
       <option name="project" value="LOCAL" />
       <updated>1523825740307</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Commit de fix">
+      <created>1523825971270</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1523825971270</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24999000" />
+    <option name="totallyTimeSpent" value="30444000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -296,11 +297,11 @@
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24588086" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3292683" />
-      <window_info active="true" anchor="bottom" id="Messages" order="7" visible="true" weight="0.32655826" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32655826" />
       <window_info anchor="bottom" id="CMake" order="7" weight="0.3292683" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292683" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32791328" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32791328" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3292683" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -607,20 +608,6 @@
     <entry file="file://$PROJECT_DIR$/Comment.cpp" />
     <entry file="file://$PROJECT_DIR$/Comment.h" />
     <entry file="file://$PROJECT_DIR$/File.h" />
-    <entry file="file://$PROJECT_DIR$/File.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/File.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/linked_list.cpp" />
     <entry file="file://$PROJECT_DIR$/Node.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -683,33 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Command.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Element.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#37#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Command.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" selection-start-line="18" selection-end-line="19" selection-end-column="28" />
-          <folding>
-            <element signature="e#93#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Comment.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -730,20 +690,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="149" column="58" selection-start-line="149" selection-start-column="58" selection-end-line="149" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/List.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
           <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Object.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/File.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/File.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Command.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Command.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" selection-start-line="18" selection-end-line="19" selection-end-column="28" />
+          <folding>
+            <element signature="e#93#115#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -754,10 +742,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Object.h">
+    <entry file="file://$PROJECT_DIR$/Element.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        <state relative-caret-position="197">
+          <caret line="52" column="10" lean-forward="true" selection-start-line="52" selection-start-column="10" selection-end-line="52" selection-end-column="10" />
+          <folding>
+            <element signature="e#37#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="200" column="27" selection-start-line="200" selection-start-column="27" selection-end-line="200" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -3,11 +3,14 @@
 //
 #include <string>
 #include <cstring>
+#include <map>
+#include <iterator>
 #include "Constants.h"
 #include "Object.h"
 
 #ifndef TOPICOSI_ELEMENT_H
 #define TOPICOSI_ELEMENT_H
+
 enum Elements
 {
     RESISTOR,
@@ -26,33 +29,34 @@ enum Elements
 
 class Element : public Object {
     private:
-        char *alias;
-        float positiveN, negativeN, value;
-        int type;
-        Elements teste;
+        string alias, elementType, value;
+        //float positiveN, negativeN; //, value;
+        int type, positiveN, negativeN;
     public:
         Element();
         ~Element();
 
-        virtual void setElementType(Elements type){
-            this->teste = type;
+        virtual void setElementType(string type){
+            this->elementType = type;
         }
 
-        virtual void setPositiveNode(String v){
-            std::string::size_type sz;     // alias of size_t
-            this->positiveN = std::stof (v,&sz);
+        virtual string getElementType(){
+            return this->elementType;
+        }
+
+        virtual void setPositiveNode(int v){
+            this->positiveN = v;
         };
 
-        virtual float getPositiveNode(){
+        virtual int getPositiveNode(){
             return this->positiveN;
         };
 
-        virtual void setNegativeNode(String v){
-            std::string::size_type sz;     // alias of size_t
-            this->negativeN = std::stof (v,&sz);
+        virtual void setNegativeNode(int v){
+            this->negativeN = v;
         };
 
-        virtual float getNegativeNode(){
+        virtual int getNegativeNode(){
             return this->negativeN;
         };
 
@@ -64,20 +68,19 @@ class Element : public Object {
             return this->type;
         }
 
-        virtual float getValue(){
+        virtual string getValue(){
             return this->value;
         };
 
         virtual void setValue(String v){
-            std::string::size_type sz;     // alias of size_t
-            this->value = std::stof (v,&sz);
+            this->value = v;
         };
 
         virtual String getAlias(){
             return this->alias;
         };
-        virtual void setAlias(const char *a){
-            strcpy(this->alias, a);
+        virtual void setAlias(string a){
+            this->alias = a;
         };
 };
 
