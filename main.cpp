@@ -1,70 +1,126 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstring>
+#include <list>
+#include "Constants.h"
 #include "Comment.h"
+#include "Command.h"
+#include "Object.h"
 
-using String = std::string;
+int word_count(string s) {
+    int w = 0;
+    int l = s.length();
+    for(int i = 0; i < l; i++) {
+        if ((s[i-1] == ' ' || s[i-1] == '\0') && (s[i] != ' ')) w++;
+        if (s[i] == '\0') break;
+    }
+    return w;
+}
 
 int main(int argc, const char * argv[]) {
-    Comment teste("um teste bem louco");
+    typedef std::list<Object*> ListaObj;
+    ListaObj lista;
+    if (argc != 3) {
+        cerr << "Invalid input usage, use [input] [output]" << endl;
+        exit(1);
+    }else{
+
+//        for (int i = 0; i < 50; ++i)
+//        {
+//            list->add(rand() % 100);
+//        }
+//        list->print();
+//        std::cout << "List Length: " << list->length << std::endl;
+//        delete list;
+
+        fileStd inputFileStream(argv[1], fstream::in);
+        if(inputFileStream.is_open()){
+            if (d) cout << "File open... parsing\n";
+            string line, word, sts;
+            int line_count = 0;
+            getline(inputFileStream, line); // skip the first line
+            while(getline(inputFileStream, line))
+            {
+                ++line_count;
+                istringstream iss(line);
 
 
-    printf("%s\n",teste.getComment());
-    printf("%d \n", argc);
-    printf("%s \n", argv[2]);
-    std::cout << "Hello, World!" << std::endl;
+//                std::istringstream lineStream(line);
 //
-//    std::cout << "filename: ";
-//    std::string file_name;
-//    std::cin >> file_name;
+//                String nameOfGame;
+//                String leastFav;
+//                String fav;
+//                String bestCharacter;
 //
-//    //open a file copy.out for input
-//    std::ifstream inFile(file_name.c_str() );
-//
-//    if (! inFile)
-//    {
-//        std::cerr << "unable to open input file: "
-//             << file_name << " --bailing out! \n";
-//        return -1;
-//    }
-//
-//    char ch;
-//    while (inFile.get(ch))
-//        std::cout.put(ch);
-//
-//    return 0;
+//                std::getline(iss, leastFav, ' ');
+
+                switch(line[0]) {
+                    case '.':
+                        if (d) cout << "\ncomand l:[" << line_count << "]";
+                        getline(iss, word);
+                        cout << word << "AAAAAAAAAAAAA";
+                        //Command command = new Command();
+                        //command.setCommand(word);
+                        //Command* command = new Command();
+                        lista.push_back(new Command(10));
+                        //lista->insert(command);
+                        //list->add(command);
+                        break;
+
+                    case '*':
+                        if (d) cout << "\ncomment l:[" << line_count << "]";
+                        lista.push_back(new Comment(50));
+                        break;
+
+                    case 'R':
+                        if (d) cout << "\nresistor l:[" << line_count << "]";
+
+                        break;
+
+                    case 'C':
+                        if (d) cout << "\ncapacitor l:[" << line_count << "]";
+
+                        break;
+
+                    case 'L':
+                        if (d) cout << "\nindutor l:[" << line_count << "]";
+
+                        break;
+                    default: break;
+                };
+
+                //cout << line[0] << "\n Linha completa: " << line << " | " << word_count(line);
+
+                string token;
 
 
-    std::ifstream inputFileStream("teste");
-    if (inputFileStream.is_open()){
-        int count;
-        inputFileStream>>count;
-        inputFileStream.ignore(1, '\n'); //ignore first line cuz it's a comment
+                while (getline(iss, token, ' '))
+                {
 
-        for(int i = 0; i < count; i++)
-        {
-            String line;
-            std::getline(inputFileStream, line);
+                    if (token[0] == 'V'){
+                        if (d) cout << "\nFonte de tensao";
 
-            std::istringstream lineStream(line);
+                    }
 
-            String nameOfGame;
-            String leastFav;
-            String fav;
-            String bestCharacter;
+                    // process each token
+                    //cout << token << " ";
+                }
+                //cout << endl;
+            }
+        } else cerr << "Unable to open file, use [input] [output] sintaxe\n";
+    }
 
-            std::getline(lineStream, leastFav, '|');
-            std::getline(lineStream, nameOfGame, '|');
-            std::getline(lineStream, fav, '|');
-            std::getline(lineStream, bestCharacter, '|');
-
-            std::cout<< leastFav <<"\n"<<nameOfGame<<"\n"<<fav<<"\n"<<bestCharacter<<"\n\n";
-        };
-    } else std::cout << "Unable to open file";
-
-
-
+    for(ListaObj::const_iterator iter = lista.begin(),
+        endIter = lista.end();
+        iter != endIter;
+        ++iter)
+    {
+        Object *object = *iter;
+        printf("\nAQUI: %d", object->getType());
+        //cout << "aqui!" << object->getType();
+    }
 
     return 0;
-
 }
+
