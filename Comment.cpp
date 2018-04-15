@@ -1,17 +1,34 @@
 //
-// Created by dev on 12/04/18.
+// Created by Delton on 12/04/18.
 //
 
 #include <cstring>
 #include "Comment.h"
 
-    Comment::Comment(char *str)
-    {
-        strcat(str, "\0");
-        comment = str;
+//    Comment::Comment(char *str)
+//    {
+//        strcat(str, "\0");
+//        comment = str;
+//    }
+
+    Comment::Comment() {
+        this->type = COMMENT;
+        this->comment = "";
     }
 
-    char* Comment::getComment()
+    int Comment::getType() {
+        return type;
+    }
+
+    void Comment::setType(int t){
+        this->type = t;
+    }
+
+    string Comment::getComment()
     {
-        return comment;
+        return this->comment;
+    }
+
+    void Comment::setComment(String comment){
+        this->comment = comment;
     }

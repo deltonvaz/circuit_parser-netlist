@@ -1,21 +1,27 @@
 //
-// Created by dev on 12/04/18.
+// Created by Delton on 12/04/18.
 //
 
 #include <string>
+#include "Object.h"
 
 #define MAX_CHAR 5000
 #ifndef TOPICOSI_COMMENT_H
 #define TOPICOSI_COMMENT_H
 
 
-class Comment {
+class Comment : public Object{
 private:
-    char *comment;
+    string comment;
+    int type;
 
 public:
-    Comment(char *str);
-    char* getComment();
+    int getType();
+    void setType(int t);
+    void setComment(String comment);
+    string getComment();
+    Comment();
+    ~Comment();
 
 };
 

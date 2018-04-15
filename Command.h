@@ -5,13 +5,23 @@
 #ifndef TOPICOSI_COMMAND_H
 #define TOPICOSI_COMMAND_H
 
+#include "Constants.h"
+#include "Object.h"
 
-class Command {
-public:
-    Command(int command_type);
+class Command : public Object{
+    private:
+        String command;
+        int type;
+    public:
+        Command();
+        ~Command();
+        //Command(String command);
+        void setCommand(String command);
+        string getCommand();
+        int getType();
+        void setType(int t);
 
-private:
-        int command_type;
+
 
 
 };
