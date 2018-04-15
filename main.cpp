@@ -3,10 +3,14 @@
 #include <sstream>
 #include <cstring>
 #include <list>
+#include <vector>
 #include "Constants.h"
 #include "Comment.h"
 #include "Command.h"
 #include "Object.h"
+#include "Element.h"
+
+typedef std::list<Object*> ListaObj;
 
 int word_count(string s) {
     int w = 0;
@@ -19,8 +23,11 @@ int word_count(string s) {
 }
 
 int main(int argc, const char * argv[]) {
-    typedef std::list<Object*> ListaObj;
+
+    typedef std::list<String*> LabelList;
+    LabelList labels;
     ListaObj lista;
+    vector<string> result;
     if (argc != 3) {
         cerr << "Invalid input usage, use [input] [output]" << endl;
         exit(1);
@@ -42,42 +49,39 @@ int main(int argc, const char * argv[]) {
             getline(inputFileStream, line); // skip the first line
             while(getline(inputFileStream, line))
             {
+                string token;
                 ++line_count;
                 istringstream iss(line);
-
-
-//                std::istringstream lineStream(line);
-//
-//                String nameOfGame;
-//                String leastFav;
-//                String fav;
-//                String bestCharacter;
-//
-//                std::getline(iss, leastFav, ' ');
-
+                cout << "\n" << line << "\n";
+                //split(result, line, is_any_of(" \t\n\v\f\r"), token_compress_on);
                 switch(line[0]) {
-                    case '.':
+                    case '.':{
                         if (d) cout << "\ncomand l:[" << line_count << "]";
                         getline(iss, word);
-                        cout << word << "AAAAAAAAAAAAA";
                         //Command command = new Command();
                         //command.setCommand(word);
-                        //Command* command = new Command();
-                        lista.push_back(new Command(10));
+                        auto * command = new Command();
+                        command->setCommand(word);
+                        cout << "\ncomando:" << word;
+                        command->setType(COMMAND);
+                        lista.push_back(command);
                         //lista->insert(command);
                         //list->add(command);
                         break;
-
-                    case '*':
+                    }
+                    case '*': {
                         if (d) cout << "\ncomment l:[" << line_count << "]";
-                        lista.push_back(new Comment(50));
+                        auto * comment = new Comment();
+                        lista.push_back(comment);
                         break;
-
-                    case 'R':
+                    }
+                    case 'R': {
                         if (d) cout << "\nresistor l:[" << line_count << "]";
-
+                        auto *element = new Element();
+                        element->setType(ELEMENT);
+                        lista.push_back(element);
                         break;
-
+                    }
                     case 'C':
                         if (d) cout << "\ncapacitor l:[" << line_count << "]";
 
@@ -87,40 +91,72 @@ int main(int argc, const char * argv[]) {
                         if (d) cout << "\nindutor l:[" << line_count << "]";
 
                         break;
-                    default: break;
+                    case 'V':{
+                        auto *element = new Element();
+                        element->setType(ELEMENT);
+                        lista.push_back(element);
+                    }
+                    default:
+                        if (d) cout << "\ndef l:[" << line_count << "]\n";
+                        break;
                 };
+
+//                while (getline(iss, token, ' '))
+//                {
+//                    if (d) cout << "\n" << token << "\n";
+//                }
+//                std::istringstream lineStream(line);
+//
+//                String nameOfGame;
+//                String leastFav;
+//                String fav;
+//                String bestCharacter;
+//
+//                std::getline(iss, leastFav, ' ');
+
+
 
                 //cout << line[0] << "\n Linha completa: " << line << " | " << word_count(line);
 
-                string token;
 
 
-                while (getline(iss, token, ' '))
-                {
-
-                    if (token[0] == 'V'){
-                        if (d) cout << "\nFonte de tensao";
-
-                    }
-
-                    // process each token
-                    //cout << token << " ";
-                }
                 //cout << endl;
             }
         } else cerr << "Unable to open file, use [input] [output] sintaxe\n";
     }
 
+    int cont = 1;
     for(ListaObj::const_iterator iter = lista.begin(),
         endIter = lista.end();
         iter != endIter;
         ++iter)
     {
         Object *object = *iter;
-        printf("\nAQUI: %d", object->getType());
+        cout << "#" << cont << ": ";
+        if (object->getType() == COMMAND){
+            auto *command = (Command *) *iter;
+            //printf("\n Tipo: %d\n", command->getType());
+            cout << "Command \t" << command->getCommand() << "\n";
+        }
+        else if (object->getType() == COMMENT){
+            auto *comment = (Comment *) *iter;
+            //printf("\n Tipo: %d\n", comment->getType());
+            cout << "Comment \t" << comment->getComment() << "\n";
+            //printf("\nAQUI: %s", command->getCommand());
+        }
+        else if (object->getType() == ELEMENT){
+            auto *element = (Element *) *iter;
+            printf("\n Tipo: %d\n", element->getType());
+            //printf("\nAQUI: %s", command->getCommand());
+        }
+
+        cont++;
         //cout << "aqui!" << object->getType();
     }
 
+    lista.clear();
+
     return 0;
 }
+
 
