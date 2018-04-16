@@ -5,7 +5,6 @@
 #include <string>
 #include "Object.h"
 
-#define MAX_CHAR 5000
 #ifndef TOPICOSI_COMMENT_H
 #define TOPICOSI_COMMENT_H
 
@@ -16,8 +15,8 @@ private:
     int type;
 
 public:
-    int getType();
-    void setType(int t);
+    int getType() override;
+    void setType(int t) override;
     void setComment(String comment);
     string getComment();
     Comment();

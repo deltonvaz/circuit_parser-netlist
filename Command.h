@@ -1,5 +1,5 @@
 //
-// Created by dev on 13/04/18.
+// Created by Delton on 13/04/18.
 //
 
 #ifndef TOPICOSI_COMMAND_H
@@ -18,8 +18,8 @@ class Command : public Object{
         //Command(String command);
         void setCommand(String command);
         string getCommand();
-        int getType();
-        void setType(int t);
+        int getType() override;
+        void setType(int t) override;
 
 
 

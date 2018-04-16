@@ -5,12 +5,6 @@
 #include <cstring>
 #include "Comment.h"
 
-//    Comment::Comment(char *str)
-//    {
-//        strcat(str, "\0");
-//        comment = str;
-//    }
-
     Comment::Comment() {
         this->type = COMMENT;
         this->comment = "";
@@ -31,4 +25,8 @@
 
     void Comment::setComment(String comment){
         this->comment = comment;
+    }
+
+    Comment::~Comment() {
+
     }
