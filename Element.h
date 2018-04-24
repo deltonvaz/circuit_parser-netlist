@@ -31,14 +31,14 @@ enum Elements
 
 class Element : public Object {
     private:
-        string alias, elementType;
-        float value;
+        string elementType;
+        double value;
         //float positiveN, negativeN; //, value;
-        int type, positiveN, negativeN, cPositiveN, cNegativeN, nC, nB, nE, nD, nG, nS;
+        int type, positiveN, negativeN, cPositiveN, cNegativeN, nC, nB, nE, nD, nG, nS, alias;
         const char * c;
 
     public:
-        Element(String &line, String type, vector<string> &result, LabelList &labels, ListaObj &lista, Elements element);
+        Element(String &line, String type, vector<string> &result, LabelList &nodeLabels, ListaObj &lista, Elements element, LabelList &labelsRotulo);
         ~Element();
         vector<string> split();
 
@@ -74,53 +74,61 @@ class Element : public Object {
             return this->type;
         }
 
-        virtual float getValue(){
+        virtual double getValue(){
             return this->value;
         };
 
         virtual void setValue(String v){
-            this->value = std::stof(v);
-            if ((v.substr(v.size() - 3) == "meg") || (v.substr(v.size() - 3) == "MEG")){
-                this->value = this->value*10E6;
+            double temp = std::stod(v);
+            this->value = std::stod(v);
+            for(unsigned int i = 0; i < v.length(); ++i) {
+                v[i] = tolower(v[i]);
             }
-            switch (tolower(v.back())) {
+            if(v.size() > 3){
+                if ((v.substr(v.size() - 3) == "meg")){
+                    string b = v.erase(v.size() - 3);
+                    this->value = std::stod(b);
+                    this->value = this->value*10E5;
+                }
+            }
+            switch (v.back()) {
                 case 'k': {
-                    this->value = this->value * 10E3;
+                    this->value = this->value * 10E2;
                     if (d) cout << this->value << endl;
                     break;
                 }
                 case 'm': {
-                    this->value = this->value * 10E-3;
+                    this->value = temp * 10E-4;
                     if (d) cout << this->value << endl;
                     break;
                 }
                 case 'f': {
-                    this->value = this->value * 10E-15;
+                    this->value = this->value * 10E-16;
                     cout << this->value << endl;
                     break;
                 }
                 case 'p': {
-                    this->value = this->value * 10E-12;
+                    this->value = this->value * 10E-13;
                     if (d) cout << this->value << endl;
                     break;
                 }
                 case 'n': {
-                    this->value = this->value * 10E-9;
+                    this->value = this->value * 10E-10;
                     if (d) cout << this->value << endl;
                     break;
                 }
                 case 'u': {
-                    this->value = this->value * 10E-6;
+                    this->value = this->value * 10E-7;
                     if (d) cout << this->value << endl;
                     break;
                 }
                 case 'g': {
-                    this->value = this->value * 10E9;
+                    this->value = this->value * 10E8;
                     if (d) cout << this->value << endl;
                     break;
                 }
                 case 't': {
-                    this->value = this->value * 10E12;
+                    this->value = this->value * 10E11;
                     if (d) cout << this->value << endl;
                     break;
                 }
@@ -128,10 +136,10 @@ class Element : public Object {
 
         };
 
-        virtual String getAlias(){
+        virtual int getAlias(){
             return this->alias;
         };
-        virtual void setAlias(string a){
+        virtual void setAlias(int a){
             this->alias = a;
         };
 
