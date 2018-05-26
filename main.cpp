@@ -44,9 +44,12 @@ int main(int argc, const char * argv[]) {
                         if (d) cout << "\ncomand l:[" << line_count << "]";
                         getline(iss, word);
                         auto * command = new Command();
+                        cout << word << endl;
                         command->setCommand(word);
                         command->setType(COMMAND);
                         lista->push_back(command);
+
+                        cout << "ENTROU AQUI" << endl;
                         break;
                     }
                     case '*': {
@@ -125,6 +128,8 @@ int main(int argc, const char * argv[]) {
 
     }
 
+    //if
+
     string fileNameOutput;
     ofstream outputFile(argv[2]);
 
@@ -133,6 +138,7 @@ int main(int argc, const char * argv[]) {
     int cont = 0;
     std::cout.precision(6);
     outputFile << "Lista encadeada de elementos:" << endl << endl;
+    if (d) cout << "Lista encadeada de elementos:" << endl << endl;
     for(ListaObj::const_iterator iter = lista->begin(),
         endIter = lista->end();
         iter != endIter;
@@ -142,7 +148,9 @@ int main(int argc, const char * argv[]) {
         outputFile << "#" << cont << ": ";
         if (object->getType() == COMMAND){
             auto *command = (Command *) *iter;
+            cout << "AQUI2" << endl;
             outputFile << "Command \t " << command->getCommand() << "\n";
+            cout << "Command \t " << command->getCommand() << endl;
         }
         else if (object->getType() == COMMENT){
             auto *comment = (Comment *) *iter;
@@ -177,15 +185,20 @@ int main(int argc, const char * argv[]) {
     }
 
     if(nodeLabels->size() > 0) {
+        cout << "\nVetor id do no => rotulo do no: (size = " << nodeLabels->size() << "):" << endl;
         outputFile << "\nVetor id do no => rotulo do no: (size = " << nodeLabels->size() << "):" << endl;
-        for (std::set<std::string>::iterator it = nodeLabels->begin(); it != nodeLabels->end(); ++it)
+        for (std::set<std::string>::iterator it = nodeLabels->begin(); it != nodeLabels->end(); ++it) {
             outputFile << "No " << distance(nodeLabels->begin(), it) << " : " << *it << endl;
+            cout << "No " << distance(nodeLabels->begin(), it) << " : " << *it << endl;
+        }
         outputFile << "\n";
     }
 
     if(labelsRotulo->size() > 0) {
-        for (std::set<std::string>::iterator it = labelsRotulo->begin(); it != labelsRotulo->end(); ++it)
+        for (std::set<std::string>::iterator it = labelsRotulo->begin(); it != labelsRotulo->end(); ++it) {
             outputFile << "Rotulo " << distance(labelsRotulo->cbegin(), it) << " : " << *it << endl;
+            cout << "Rotulo " << distance(labelsRotulo->cbegin(), it) << " : " << *it << endl;
+        }
         outputFile << "\n";
     }
 
