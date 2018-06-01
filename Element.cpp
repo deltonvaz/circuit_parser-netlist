@@ -26,17 +26,17 @@ void Element::printElement(ofstream *file) {
             *file << "IND [";
         } else if (this->getElementType().compare("V") == 0) {
             if (de) cout << "VS [";
-            *file << "VS [";
+            *file << "VS  [";
         } else if (this->getElementType().compare("I") == 0) {
             if (de) cout << "IS [";
-            *file << "IS [";
+            *file << "IS  [";
         } else if (this->getElementType().compare("D") == 0) {
             if (de) cout << "DIO [";
             *file << "DIO [";
         }
         if (de) cout << this->getAlias() << "]; n+[" << this->getPositiveNode() << "]; n-[" << getNegativeNode() << "]; value=";
 
-        *file << this->getAlias() << "]; n+[" << this->getPositiveNode() << "]; n-[" << getNegativeNode()
+        *file << this->getAlias() << "]; n+[" << this->getPositiveNode() << "], n-[" << getNegativeNode()
               << "]; value=";
         if (this->getValueType() == FLOAT) {
             if (de) cout << this->getFloatValue();
@@ -93,7 +93,7 @@ void Element::printElement(ofstream *file) {
                 cout << "MOS\t[" << this->getAlias() << "]; nd[" << this->getnD() << "], ng[" << this->getnG()
                      << "] ns["
                      << this->getnS() << "]; value=";
-            *file << "MOS\t[" << this->getAlias() << "]; nd[" << this->getnD() << "], ng[" << this->getnG() << "] ns["
+            *file << "MOS [" << this->getAlias() << "]; nd[" << this->getnD() << "], ng[" << this->getnG() << "], ns["
                   << this->getnS() << "]; value=";
             if (this->getValueType() == FLOAT) {
                 if (d) cout << this->getFloatValue();

@@ -73,7 +73,7 @@ int main(int argc, const char * argv[]) {
     outputFile << "\nVetor id do no => rotulo do no:\n" << endl;
     for(auto it = nodes.begin(); it != nodes.end(); ++it) {
         if (dOut) std::cout << "No: " << distance(nodes.begin(),it) << ": " << *it << endl;
-        outputFile << "No: " << distance(nodes.begin(),it) << ": " << *it << endl;
+        outputFile << "No " << distance(nodes.begin(),it) << ": " << *it << endl;
     }
 
     /* Generate id alias => alias*/
@@ -81,7 +81,7 @@ int main(int argc, const char * argv[]) {
     if (dOut) cout << "\nVetor id do rotulo => rotulo::\n" << endl;
     for(auto it = alias.begin(); it != alias.end(); ++it){
         if (dOut) std::cout << "Rotulo: " << distance(alias.begin(),it) << ": " << *it << endl;
-        outputFile << "Rotulo: " << distance(alias.begin(),it) << ": " << *it << endl;
+        outputFile << "Rotulo " << distance(alias.begin(),it) << ": " << *it << endl;
     }
 
     /*close file*/
