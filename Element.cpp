@@ -3,110 +3,105 @@
 //
 
 #include "Element.h"
-vector<string> Element::split(){
-    vector<string> result;
-    std::istringstream iss(this->c);
-    std::string token;
-    while(iss >> token)
-    {
-        if (d) cout << token << endl;
-        result.push_back(token);
-    }
-    return result;
+
+Element::Element() {
+    this->setType(ELEMENT);
 }
 
-Element::Element(String &line, String type, vector<string> &result, LabelList &nodeLabels, ListaObj &lista, Elements e, LabelList &labelsRotulo) {
-        this->cPositiveN = this->cNegativeN = -1;
-        nodeLabels.insert("0"); //initialize vector of node labels
-        if (e == FONTE_VCVS || e == FONTE_VCCS || e == FONTE_CCCS || e == FONTE_CCVS){
-            this->setType(ELEMENT);
-            this->setElementType(type);
-            if (d) cout << line << endl;
-            this->c = line.c_str();
-            result = split();
-            if (result.size() == 6){
-                labelsRotulo.insert(result[0]);
-                this->setAlias(std::distance(labelsRotulo.begin(), labelsRotulo.find(result[0])));
-                nodeLabels.insert(result[1]);
-                nodeLabels.insert(result[2]);
-                nodeLabels.insert(result[3]);
-                nodeLabels.insert(result[4]);
-                this->setPositiveNode(std::distance(nodeLabels.begin(), nodeLabels.find(result[1])));
-                this->setNegativeNode(std::distance(nodeLabels.begin(), nodeLabels.find(result[2])));
-                this->setControlledPositiveNode(std::distance(nodeLabels.begin(), nodeLabels.find(result[3])));
-                this->setControlledNegativeNode(std::distance(nodeLabels.begin(), nodeLabels.find(result[4])));
-                if (d) cout << result[5] << endl;
-                this->setValue(result[5]);
-                lista.push_back(this);
-            }else {
-                cerr << "invalid " << type << " type" << endl;
-                exit(0);
-            }
-        }else if(e == TJB){
-            this->setType(ELEMENT);
-            this->setElementType(type);
-            if (d) cout << line << endl;
-            this->c = line.c_str();
-            result = split();
-            if(result.size() == 5){
-                labelsRotulo.insert(result[0]);
-                this->setAlias(std::distance(labelsRotulo.begin(), labelsRotulo.find(result[0])));
-                nodeLabels.insert(result[1]);
-                nodeLabels.insert(result[2]);
-                nodeLabels.insert(result[3]);
-                this->setnC(std::distance(nodeLabels.begin(), nodeLabels.find(result[1])));
-                this->setnB(std::distance(nodeLabels.begin(), nodeLabels.find(result[2])));
-                this->setnE(std::distance(nodeLabels.begin(), nodeLabels.find(result[3])));
-                if (d) cout << result [4] << endl;
-                this->setValue(result[4]);
-                lista.push_back(this);
-            }else{
-                cerr << "invalid tbj argument";
-                exit(0);
-            }
-        } else if(e ==MOSFET){
-            this->setType(ELEMENT);
-            this->setElementType(type);
-            if (d) cout << line << endl;
-            this->c = line.c_str();
-            result = split();
-            if(result.size() == 5) {
-                labelsRotulo.insert(result[0]);
-                this->setAlias(std::distance(labelsRotulo.begin(), labelsRotulo.find(result[0])));
-                nodeLabels.insert(result[1]);
-                nodeLabels.insert(result[2]);
-                nodeLabels.insert(result[3]);
-                this->setnD(std::distance(nodeLabels.begin(), nodeLabels.find(result[1])));
-                this->setnG(std::distance(nodeLabels.begin(), nodeLabels.find(result[2])));
-                this->setnS(std::distance(nodeLabels.begin(), nodeLabels.find(result[3])));
-                if (d) cout << result[4] << endl;
-                this->setValue(result[4]);
-                lista.push_back(this);
-            }else{
-                cerr << "invalid mosfet argument";
-                exit(0);
-            }
+Element::~Element() {
+}
+
+void Element::printElement(ofstream *file) {
+    string et = this->getElementType();
+    std::cout.precision(6);
+    if(et.compare("R") == 0 | et.compare("C") == 0 | et.compare("L") == 0 | et.compare("V") == 0 | et.compare("I") == 0 | et.compare("D") == 0) {
+        if (this->getElementType().compare("R") == 0) {
+            if (de) cout << "RES [";
+            *file << "RES [";
+        } else if (this->getElementType().compare("C") == 0) {
+            if (de) cout << "CAP [";
+            *file << "CAP [";
+        } else if (this->getElementType().compare("L") == 0) {
+            if (de) cout << "IND [";
+            *file << "IND [";
+        } else if (this->getElementType().compare("V") == 0) {
+            if (de) cout << "VS [";
+            *file << "VS [";
+        } else if (this->getElementType().compare("I") == 0) {
+            if (de) cout << "IS [";
+            *file << "IS [";
+        } else if (this->getElementType().compare("D") == 0) {
+            if (de) cout << "DIO [";
+            *file << "DIO [";
         }
-        else {
-            this->setType(ELEMENT);
-            this->setElementType(type);
-            this->c = line.c_str();
-            result = split();
-            if (result.size() == 4) {
-                //this->setAlias(result[0]);
-                labelsRotulo.insert(result[0]);
-                this->setAlias(std::distance(labelsRotulo.begin(), labelsRotulo.find(result[0])));
-                nodeLabels.insert(result[1]);
-                nodeLabels.insert(result[2]);
-                this->setPositiveNode(std::distance(nodeLabels.begin(), nodeLabels.find(result[1])));
-                this->setNegativeNode(std::distance(nodeLabels.begin(), nodeLabels.find(result[2])));
-                this->setValue(result[3]);
-                lista.push_back(this);
+        if (de) cout << this->getAlias() << "]; n+[" << this->getPositiveNode() << "]; n-[" << getNegativeNode() << "]; value=";
+
+        *file << this->getAlias() << "]; n+[" << this->getPositiveNode() << "]; n-[" << getNegativeNode()
+              << "]; value=";
+        if (this->getValueType() == FLOAT) {
+            if (de) cout << this->getFloatValue();
+            *file << scientific << this->getFloatValue();
+        }else {
+            if (de) cout << this->getStringValue();
+            *file << this->getStringValue();
+        }
+    }else if(et.compare("E") == 0 | et.compare("F") == 0 | et.compare("G") == 0 | et.compare("H") == 0 ) {
+        if (this->getElementType().compare("E") == 0) {
+            if (de) cout << "VCVS[";
+            *file << "VCVS[";
+        } else if (this->getElementType().compare("F") == 0) {
+            if (de)cout << "CCCS[";
+            *file << "CCCS[";
+        } else if (this->getElementType().compare("G") == 0) {
+            if (de) cout << "VCCS[";
+            *file << "VCCS[";
+        } else if (this->getElementType().compare("H") == 0) {
+            if (de) cout << "CCVS[";
+            *file << "CCVS[";
+        }
+        if (de) cout << this->getAlias() << "]; na[" << this->getPositiveNode() << "], nb["
+                            << getNegativeNode() << "], nc[" << this->getControlledPositiveNode() << "], nd["
+                            << this->getControlledNegativeNode() << "]; value=";
+
+        *file << this->getAlias() << "]; na[" << this->getPositiveNode() << "], nb["
+              << getNegativeNode() << "], nc[" << this->getControlledPositiveNode() << "], nd["
+              << this->getControlledNegativeNode() << "]; value=";
+        if (this->getValueType() == FLOAT) {
+            if (d) cout << this->getFloatValue();
+            *file << scientific << this->getFloatValue();
+        }else {
+            if (d) cout << this->getStringValue();
+            *file << this->getStringValue();
+        }
+
+    }else{
+        if (this->getElementType().compare("Q") == 0) {
+            if (de)
+                cout << "TJB\t[" << this->getAlias() << "]; nC" << this->getnC() << "], nB[" << this->getnB() << "] nE["
+                     << this->getnE() << "]; value=";
+            *file << "TJB\t[" << this->getAlias() << "]; nC" << this->getnC() << "], nB[" << this->getnB() << "] nE["
+                  << this->getnE() << "]; value=";
+            if (this->getValueType() == FLOAT) {
+                if (d) cout << this->getFloatValue();
+                *file << scientific << this->getFloatValue();
             }else {
-                cerr << "invalid " << type << " type" << endl;
-                exit(0);
+                if (d) cout << this->getStringValue();
+                *file << this->getStringValue();
             }
-
-
+        } else if (this->getElementType().compare("M") == 0) {
+            if (de)
+                cout << "MOS\t[" << this->getAlias() << "]; nd[" << this->getnD() << "], ng[" << this->getnG()
+                     << "] ns["
+                     << this->getnS() << "]; value=";
+            *file << "MOS\t[" << this->getAlias() << "]; nd[" << this->getnD() << "], ng[" << this->getnG() << "] ns["
+                  << this->getnS() << "]; value=";
+            if (this->getValueType() == FLOAT) {
+                if (d) cout << this->getFloatValue();
+                *file << scientific << this->getFloatValue();
+            }else{
+                if (d) cout << this->getStringValue();
+                *file << this->getStringValue();
+            }
         }
     }
+}

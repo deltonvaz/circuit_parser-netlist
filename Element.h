@@ -10,37 +10,44 @@
 
 #ifndef TOPICOSI_ELEMENT_H
 #define TOPICOSI_ELEMENT_H
-typedef std::set<string> LabelList;
-typedef std::list<Object*> ListaObj;
 
-enum Elements
-{
-    RESISTOR,
-    CAPACITOR,
-    INDUTOR,
-    FONTE_TENSAO,
-    FONTE_CORRENTE,
-    FONTE_VCVS, //Voltage controlled voltage source E<rótulo> <nó+> <nó-> <nóC+> <nóC-> <valor>
-    FONTE_CCCS, //Current controlled current source F<rótulo> <nó+> <nó-> <nóC+> <nóC-> <valor>
-    FONTE_VCCS, //Voltage controlled current source G<rótulo> <nó+> <nó-> <nóC+> <nóC-> <valor>
-    FONTE_CCVS, //Current controlled voltage source H<rótulo> <nó+> <nó-> <nóC+> <nóC-> <valor>
-    DIODO,
-    TJB,
-    MOSFET
-};
+typedef std::list<Object*> ListaObj;
 
 class Element : public Object {
     private:
-        string elementType;
-        double value;
-        //float positiveN, negativeN; //, value;
-        int type, positiveN, negativeN, cPositiveN, cNegativeN, nC, nB, nE, nD, nG, nS, alias;
-        const char * c;
+        string elementType, stringValue;
+        double floatValue;
+        int type, positiveN, negativeN, cPositiveN, cNegativeN, nC, nB, nE, nD, nG, nS, alias, valueType;
 
-    public:
-        Element(String &line, String type, vector<string> &result, LabelList &nodeLabels, ListaObj &lista, Elements element, LabelList &labelsRotulo);
+public:
+        Element();
         ~Element();
-        vector<string> split();
+
+        void printElement(ofstream *file);
+
+        virtual int getValueType(){
+            return this->valueType;
+        }
+
+        virtual void setValueType(int vt){
+            this->valueType = vt;
+        }
+
+        virtual string getStringValue(){
+            return this->stringValue;
+        }
+
+        virtual void setStringValue(string vt){
+            this->stringValue = vt;
+        }
+
+        virtual double getFloatValue(){
+            return this->floatValue;
+        }
+
+        virtual void setFloatValue(double vt){
+            this->floatValue = vt;
+        }
 
         virtual void setElementType(string type){
             this->elementType = type;
@@ -73,68 +80,6 @@ class Element : public Object {
         virtual int getType(){
             return this->type;
         }
-
-        virtual double getValue(){
-            return this->value;
-        };
-
-        virtual void setValue(String v){
-            double temp = std::stod(v);
-            this->value = std::stod(v);
-            for(unsigned int i = 0; i < v.length(); ++i) {
-                v[i] = tolower(v[i]);
-            }
-            if(v.size() > 3){
-                if ((v.substr(v.size() - 3) == "meg")){
-                    string b = v.erase(v.size() - 3);
-                    this->value = std::stod(b);
-                    this->value = this->value*10E5;
-                }
-            }
-            switch (v.back()) {
-                case 'k': {
-                    this->value = this->value * 10E2;
-                    if (d) cout << this->value << endl;
-                    break;
-                }
-                case 'm': {
-                    this->value = temp * 10E-4;
-                    if (d) cout << this->value << endl;
-                    break;
-                }
-                case 'f': {
-                    this->value = this->value * 10E-16;
-                    cout << this->value << endl;
-                    break;
-                }
-                case 'p': {
-                    this->value = this->value * 10E-13;
-                    if (d) cout << this->value << endl;
-                    break;
-                }
-                case 'n': {
-                    this->value = this->value * 10E-10;
-                    if (d) cout << this->value << endl;
-                    break;
-                }
-                case 'u': {
-                    this->value = this->value * 10E-7;
-                    if (d) cout << this->value << endl;
-                    break;
-                }
-                case 'g': {
-                    this->value = this->value * 10E8;
-                    if (d) cout << this->value << endl;
-                    break;
-                }
-                case 't': {
-                    this->value = this->value * 10E11;
-                    if (d) cout << this->value << endl;
-                    break;
-                }
-            }
-
-        };
 
         virtual int getAlias(){
             return this->alias;

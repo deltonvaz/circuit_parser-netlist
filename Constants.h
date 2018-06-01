@@ -11,10 +11,13 @@
 #include <vector>
 #include <list>
 #include <set>
-#include "Object.h"
 
 
+#define de 0 // Debug element level
+#define dOut 0 // Debug outputlist level
 #define d 0 // Debug level
+
+
 using namespace std;
 using String = std::string;
 using fileStd = std::fstream;
@@ -24,5 +27,16 @@ enum TYPES {
     COMMENT,
     ELEMENT
 };
+
+enum VALUETYPES{
+    FLOAT,
+    STRING
+};
+
+typedef struct value {
+    double floatValue;
+    string stringValue;
+    int type;
+} value;
 
 #endif //TOPICOSI_CONSTANTS_H

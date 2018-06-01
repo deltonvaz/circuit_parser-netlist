@@ -14,5 +14,5 @@ if (UNIX)
     project(topicosI)
     set(CMAKE_CXX_STANDARD 11)
     add_executable(topicosI main.cpp Comment.cpp Comment.h Command.cpp Command.h Element.cpp Element.h
-            Constants.h)
+            Constants.h Parser.cpp Parser.h)
 endif(UNIX)

@@ -5,213 +5,94 @@
 #include <list>
 #include <vector>
 #include <set>
+#include <algorithm>
 #include "Constants.h"
 #include "Comment.h"
 #include "Command.h"
 #include "Object.h"
 #include "Element.h"
-typedef std::set<string> LabelList;
+#include "Parser.h"
+
 typedef std::list<Object*> ListaObj;
-typedef std::vector<string> Result;
+typedef std::vector<string> StrVector;
+
+bool checkExtension(String str);
 
 int main(int argc, const char * argv[]) {
-    LabelList* nodeLabels = new LabelList();
-    LabelList* labelsRotulo = new LabelList();
-//    labelsRotulo->insert("0"); //initialize vector of labels
-//    nodeLabels->insert("0"); //initialize vector of node labels
-    ListaObj* lista = new ListaObj();
-    Result* result = new Result();
-    if (argc != 3) {
-        cerr << "Invalid input usage, use [input] [output]" << endl;
+    StrVector lines; //Line of the file to be parsed
+    ListaObj* elementList;
+
+    /* Open file */
+    if (argc != 2) {
+        cerr << "Invalid input usage, use [input].sp" << endl;
         exit(1);
     }else{
+        if (!checkExtension(argv[1])) {
+            cerr << "Invalid extension of netlist file" << endl;
+            exit(1);
+        }
         fileStd inputFileStream(argv[1], fstream::in);
         if(inputFileStream.is_open()){
             if (d) cout << "File open... parsing\n";
-            string line, word, sts;
-            int line_count = 0;
+            String line;
             getline(inputFileStream, line); // skip the first line
             while(getline(inputFileStream, line))
             {
-                string token;
-                const char * c;
-                ++line_count;
-                istringstream iss(line);
-                if (d) cout << "\n" << line << "\n";
-                if (d) cout << "\n" << line[0] << "\n";
-                switch(line[0]) {
-                    case '.':{
-                        if (d) cout << "\ncomand l:[" << line_count << "]";
-                        getline(iss, word);
-                        auto * command = new Command();
-                        cout << word << endl;
-                        command->setCommand(word);
-                        command->setType(COMMAND);
-                        lista->push_back(command);
-
-                        cout << "ENTROU AQUI" << endl;
-                        break;
-                    }
-                    case '*': {
-                        if (d) cout << "\ncomment l:[" << line_count << "]";
-                        getline(iss, word);
-                        auto * comment = new Comment();
-                        comment->setComment(word);
-                        comment->setType(COMMENT);
-                        lista->push_back(comment);
-                        break;
-                    }
-                    case 'R': {
-                        if (d) cout << "\nresistor l:[" << line_count << "]";
-                        auto *element = new Element(line, "RES", *result, *nodeLabels, *lista, RESISTOR, *labelsRotulo);
-                        break;
-                    }
-                    case 'C': {
-                        if (d) cout << "\ncapacitor l:[" << line_count << "]";
-                        auto *element = new Element(line, "CAP", *result, *nodeLabels, *lista, CAPACITOR, *labelsRotulo);
-                        break;
-                    }
-                    case 'L': {
-                        if (d) cout << "\nindutor l:[" << line_count << "]";
-                        auto *element = new Element(line, "IND", *result, *nodeLabels, *lista, INDUTOR, *labelsRotulo);
-                        break;
-                    }
-                    case 'V':{
-                        //if (d) cout << "\nvolt l:[" << line_count << "]";
-                        auto *element = new Element(line, "VS", *result, *nodeLabels, *lista, FONTE_TENSAO, *labelsRotulo);
-                        break;
-                    }
-                    case 'I':{
-                        auto *element = new Element(line, "IS", *result, *nodeLabels, *lista, FONTE_CORRENTE, *labelsRotulo);
-                        break;
-                    }
-                    case 'E':{
-                        if (d) cout << "\nVCVS source:[" << line_count << "]" << endl;
-                        auto *element = new Element(line, "VCVS", *result, *nodeLabels, *lista, FONTE_VCVS, *labelsRotulo);
-                        break;
-                    }
-                    case 'F':{
-                        if (d) cout << "\nCCCS source:[" << line_count << "]" << endl;
-                        auto *element = new Element(line, "CCCS", *result, *nodeLabels, *lista, FONTE_CCCS, *labelsRotulo);
-                        break;
-                    }
-                    case 'G':{
-                        if (d) cout << "\nVCCS source:[" << line_count << "]" << endl;
-                        auto *element = new Element(line, "VCCS", *result, *nodeLabels, *lista, FONTE_VCCS, *labelsRotulo);
-                        break;
-                    }
-                    case 'H':{
-                        if (d) cout << "\nCCVS source:[" << line_count << "]" << endl;
-                        auto *element = new Element(line, "CCVS", *result, *nodeLabels, *lista, FONTE_CCVS, *labelsRotulo);
-                        break;
-                    }
-                    case 'D':{
-                        auto *element = new Element(line, "DIO", *result, *nodeLabels, *lista, DIODO, *labelsRotulo);
-                        break;
-                    }
-                    case 'Q':{
-                        auto *element = new Element(line, "TJB", *result, *nodeLabels, *lista, TJB, *labelsRotulo);
-                        break;
-                    }
-                    case 'M':{
-                        auto *element = new Element(line, "MOSFET", *result, *nodeLabels, *lista, MOSFET, *labelsRotulo);
-                        break;
-                    }
-                    default:
-                        if (d) cout << "\ndef l:[" << line_count << "]\n";
-                        break;
-                };
+                //istringstream iss(line);
+                lines.push_back(line);
             }
             inputFileStream.close();
-        } else cerr << "Unable to open file, use [input] [output] sintaxe\n";
-
-
+        } else {cerr << "Unable to open file, use ./programName [input].sp\n"; exit(1);};
     }
 
-    //if
+    /* Generate outputfile */
+    String out ("out");
+    String fileName = argv[1]; fileName.pop_back(); fileName.pop_back(); // reconfigure outputfile
+    ofstream outputFile(fileName+out);
 
-    string fileNameOutput;
-    ofstream outputFile(argv[2]);
+    /* Parse file */
+    Parser* prsr = new Parser();
+    elementList = prsr->mapList(lines, &outputFile);
 
-
-
-    int cont = 0;
-    std::cout.precision(6);
-    outputFile << "Lista encadeada de elementos:" << endl << endl;
-    if (d) cout << "Lista encadeada de elementos:" << endl << endl;
-    for(ListaObj::const_iterator iter = lista->begin(),
-        endIter = lista->end();
-        iter != endIter;
-        ++iter)
-    {
-        Object *object = *iter;
-        outputFile << "#" << cont << ": ";
-        if (object->getType() == COMMAND){
-            auto *command = (Command *) *iter;
-            cout << "AQUI2" << endl;
-            outputFile << "Command \t " << command->getCommand() << "\n";
-            cout << "Command \t " << command->getCommand() << endl;
-        }
-        else if (object->getType() == COMMENT){
-            auto *comment = (Comment *) *iter;
-            outputFile << "Comment \t " << comment->getComment() << "\n";
-        }
-        else if (object->getType() == ELEMENT){
-            auto *element = (Element *) *iter;
-            outputFile << "Element \t ";
-            if(element->getElementType() == "VCVS" || element->getElementType() == "CCCS" || element->getElementType() == "VCCS" || element->getElementType() == "CCVS") {
-                outputFile << element->getElementType() <<
-                     "[" <<
-                     element->getAlias() <<
-                     "] \t ; na[" <<
-                     element->getPositiveNode() <<
-                     "], nb[" <<
-                     element->getNegativeNode();
-                    outputFile << "], nc[" << element->getControlledPositiveNode() <<
-                         "], nd[" << element->getControlledNegativeNode();
-            }else{
-                outputFile << element->getElementType() <<
-                     "[" <<
-                     element->getAlias() <<
-                     "] \t ; n+[" <<
-
-                     element->getPositiveNode() <<
-                     "], n-[" <<
-                     element->getNegativeNode();
-            }
-            outputFile << "]; value=" << scientific << element->getValue() << endl;
-        }
-        cont++;
+    if (de) cout << "Lista encadeada de elementos:\n" << endl;
+    outputFile << "Lista encadeada de elementos:\n" << endl;
+    for(auto it = elementList->begin(); it != elementList->end(); ++it) {
+        auto obj = *it;
+        Element *element = (Element *) obj;
+        if (de) cout << "#" << distance(elementList->begin(),it) << ": ";
+        outputFile << "#" << distance(elementList->begin(),it) << ": ";
+        element->printElement(&outputFile);
+        if (de) cout << endl;
+        outputFile << endl;
     }
 
-    if(nodeLabels->size() > 0) {
-        cout << "\nVetor id do no => rotulo do no: (size = " << nodeLabels->size() << "):" << endl;
-        outputFile << "\nVetor id do no => rotulo do no: (size = " << nodeLabels->size() << "):" << endl;
-        for (std::set<std::string>::iterator it = nodeLabels->begin(); it != nodeLabels->end(); ++it) {
-            outputFile << "No " << distance(nodeLabels->begin(), it) << " : " << *it << endl;
-            cout << "No " << distance(nodeLabels->begin(), it) << " : " << *it << endl;
-        }
-        outputFile << "\n";
+    /* Generate id no => alias*/
+    vector<string> alias = prsr->getAlias();
+    vector<string> nodes = prsr->getNodes();
+    if (dOut) cout << "\nVetor id do no => rotulo do no:\n" << endl;
+    outputFile << "\nVetor id do no => rotulo do no:\n" << endl;
+    for(auto it = nodes.begin(); it != nodes.end(); ++it) {
+        if (dOut) std::cout << "No: " << distance(nodes.begin(),it) << ": " << *it << endl;
+        outputFile << "No: " << distance(nodes.begin(),it) << ": " << *it << endl;
     }
 
-    if(labelsRotulo->size() > 0) {
-        for (std::set<std::string>::iterator it = labelsRotulo->begin(); it != labelsRotulo->end(); ++it) {
-            outputFile << "Rotulo " << distance(labelsRotulo->cbegin(), it) << " : " << *it << endl;
-            cout << "Rotulo " << distance(labelsRotulo->cbegin(), it) << " : " << *it << endl;
-        }
-        outputFile << "\n";
+    /* Generate id alias => alias*/
+    outputFile << "\nVetor id do rotulo => rotulo:\n" << endl;
+    if (dOut) cout << "\nVetor id do rotulo => rotulo::\n" << endl;
+    for(auto it = alias.begin(); it != alias.end(); ++it){
+        if (dOut) std::cout << "Rotulo: " << distance(alias.begin(),it) << ": " << *it << endl;
+        outputFile << "Rotulo: " << distance(alias.begin(),it) << ": " << *it << endl;
     }
 
+    /*close file*/
     outputFile.close();
-
-
-    //free memory
-    delete(labelsRotulo);
-    delete(nodeLabels);
-    delete(lista);
-    delete(result);
+    cout << fileName+out+" generated!" << endl;
 
     return 0;
+}
+
+bool checkExtension(String str){
+    return str.substr(str.find_last_of(".") + 1) == "sp";
 }
 
 
