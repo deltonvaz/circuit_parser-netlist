@@ -15,15 +15,31 @@ typedef std::list<Object*> ListaObj;
 
 class Element : public Object {
     private:
-        string elementType, stringValue;
+        string elementType, stringValue, controlElementString, stringAlias, stringNode;
         double floatValue;
-        int type, positiveN, negativeN, cPositiveN, cNegativeN, nC, nB, nE, nD, nG, nS, alias, valueType;
+        int type, positiveN, negativeN, cPositiveN, cNegativeN, nC, nB, nE, nD, nG, nS, alias, valueType, controlElement, group;
 
 public:
         Element();
         ~Element();
 
-        void printElement(ofstream *file);
+        friend std::ostream& operator<<(std::ostream&, const Element&);
+
+        virtual void setControlElementString(string str){
+            this->controlElementString = str;
+        }
+
+        virtual string getControlElementString(){
+            return this->controlElementString;
+        }
+
+        virtual int getGroup(){
+            return this->group;
+        }
+
+        virtual void setGroup(int vt){
+            this->group = vt;
+        }
 
         virtual int getValueType(){
             return this->valueType;
@@ -55,6 +71,22 @@ public:
 
         virtual string getElementType(){
             return this->elementType;
+        }
+
+        virtual void setStringAlias(string stringAlias){
+            this->stringAlias = stringAlias;
+        }
+
+        virtual string getStringAlias(){
+            return this->stringAlias;
+        }
+
+        virtual void setStringNode(string stringNode){
+            this->stringNode = stringNode;
+        }
+
+        virtual string getStringNode(){
+            return this->stringNode;
         }
 
         virtual void setPositiveNode(int v){
@@ -151,6 +183,15 @@ public:
         virtual int getnS(){
             return this->nS;
         };
+
+        virtual void setControlElement(int v){
+            this->controlElement = v;
+        };
+
+        virtual int getControlElement(){
+            return this->controlElement;
+        };
+
 };
 
 

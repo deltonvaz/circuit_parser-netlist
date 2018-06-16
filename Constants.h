@@ -16,7 +16,33 @@
 #define de 0 // Debug element level
 #define dOut 0 // Debug outputlist level
 #define d 0 // Debug level
+#define testMatrix 0 // Debug level
 
+#ifndef _COLORS_
+#define _COLORS_
+
+/* FOREGROUND */
+#define RST  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
+#define FRED(x) KRED x RST
+#define FGRN(x) KGRN x RST
+#define FYEL(x) KYEL x RST
+#define FBLU(x) KBLU x RST
+#define FMAG(x) KMAG x RST
+#define FCYN(x) KCYN x RST
+#define FWHT(x) KWHT x RST
+
+#define BOLD(x) "\x1B[1m" x RST
+#define UNDL(x) "\x1B[4m" x RST
+
+#endif  /* _COLORS_ */
 
 using namespace std;
 using String = std::string;
@@ -31,6 +57,12 @@ enum TYPES {
 enum VALUETYPES{
     FLOAT,
     STRING
+};
+
+enum GROUP{
+    NONE, //just to stay beauty :v
+    G1,
+    G2
 };
 
 typedef struct value {

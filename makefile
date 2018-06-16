@@ -1,7 +1,7 @@
 all: trabTopicos
 
-trabTopicos: main.o Command.o Comment.o Element.o Object.o Parser.o
-	g++ -o trabTopicos main.o Command.o Comment.o Element.o Object.o Parser.o
+trabTopicos: main.o Command.o Comment.o Element.o Object.o Parser.o Matrix.o
+	g++ -o trabTopicos main.o Command.o Comment.o Element.o Object.o Parser.o Matrix.o
 
 main.o: main.cpp
 	g++ -c main.cpp -std=c++11
@@ -20,6 +20,9 @@ Object.o: Object.cpp Object.h
 
 Parser.o: Parser.cpp Parser.h
 	g++ -c Parser.cpp -std=c++11
+
+Matrix.o: Matrix.cpp Matrix.h
+	g++ -c Matrix.cpp -std=c++11
 
 clean:
 	rm -rf *~ *.o trabTopicos

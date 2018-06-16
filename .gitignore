@@ -2,3 +2,8 @@ files/
 .idea/
 cmake-build-debug/
 
+.o
+.out
+
+.txt
+

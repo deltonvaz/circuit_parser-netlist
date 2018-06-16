@@ -20,7 +20,7 @@ vector<string> Parser::split(string str){
     return result;
 }
 
-bool checkVector(vector<string> el, string str){
+bool Parser::checkVector(vector<string> el, string str){
     return std::find(el.begin(), el.end(), str) != el.end();
 }
 
@@ -45,7 +45,7 @@ Object* parseElementType(char c, int lineCount){
     }
 }
 
-int getVectorIndex(vector<string> vec, string str){
+int Parser::getVectorIndex(vector<string> vec, string str){
     ptrdiff_t pos = distance(vec.begin(), find(vec.begin(), vec.end(), str));
     return pos;
 }
@@ -123,8 +123,52 @@ value getValue(string v){
     }
 }
 
-ListaObj* Parser::mapList(vector<string> lines, ofstream *file){
-    std::cout.precision(6);
+bool checkAliasVector(vector<int> el, int value){
+    return std::find(el.begin(), el.end(), value) != el.end();
+}
+
+/*
+ * Check for elements that are from group 2
+ * eg.: VS, controled elements and control elements
+ * */
+
+void Parser::checkGroupTwo(){
+    // first iteration to check for vs or cc sources
+    ListaObj* elements = this->getObjectList();
+    vector<int> controlledList;
+    for (auto it = elements->begin(); it != elements->end(); ++it) {
+        auto obj = *it;
+        if (obj->getType() == ELEMENT) {
+            Element *element = (Element *) obj;
+            if (element->getElementType().compare("V") == 0 | element->getElementType().compare("E") == 0 | element->getElementType().compare("G") == 0) // VS, VCVS or VCCS
+                element->setGroup(G2);
+            else if(element->getElementType().compare("F") == 0 | element->getElementType().compare("H") == 0){ // add controlled element to list
+                element->setGroup(G2);
+                controlledList.push_back(element->getControlElement());
+            }
+            else
+                element->setGroup(G1);
+        }
+    }
+
+    //second iteration to check if there are current that control some elements, then it must be in group
+    for (auto it = elements->begin(); it != elements->end(); ++it) {
+        auto obj = *it;
+        if (obj->getType() == ELEMENT) {
+            Element *element = (Element *) obj;
+            if (element->getElementType().compare("R") == 0 | element->getElementType().compare("I") == 0| element->getElementType().compare("H") == 0) // VS, I, CCVS case
+                if(checkAliasVector(controlledList, element->getAlias()))
+                    element->setGroup(G2);
+        }
+    }
+
+
+    this->setObjectList(elements);
+}
+
+
+Parser::Parser(vector<string> lines){
+    //std::cout.precision(6);
 
     vector<string> tokens, alias, node;
 
@@ -147,7 +191,7 @@ ListaObj* Parser::mapList(vector<string> lines, ofstream *file){
                     alias.push_back(tokens[0]);
                 //Setting element alias
                 element->setAlias(getVectorIndex(alias, tokens[0]));
-
+                element->setStringAlias(tokens[0]);
                 if((et.compare("R") == 0 | et.compare("C") == 0 | et.compare("L") == 0 | et.compare("V") == 0 | et.compare("I") == 0 | et.compare("D") == 0) && tokens.size() == 4){
                     for(int k = 1; k < 3; k++){
                         //setting the nodes(string) => int if it doesnt exists
@@ -164,15 +208,6 @@ ListaObj* Parser::mapList(vector<string> lines, ofstream *file){
                         element->setStringValue(elementValue.stringValue);
                         element->setValueType(elementValue.type);
                     }
-
-                    if (d) cout << "Elemento:" << element->getAlias() << " "
-                         << element->getPositiveNode() << " " << element->getNegativeNode() << " ";
-
-                    if(element->getValueType() == FLOAT) {
-                        if (d) cout << scientific << element->getFloatValue() << endl;
-                    }else
-                        if (d) cout << element->getStringValue() << endl;
-
                 }else if ((et.compare("Q") == 0) && tokens.size() == 5){
                     for(int k = 1; k < 4; k++){
                         //setting the nodes(string) => int if it doesnt exists
@@ -221,7 +256,7 @@ ListaObj* Parser::mapList(vector<string> lines, ofstream *file){
                         if (d) cout << scientific << element->getFloatValue() << endl;
                     }else
                         if (d) cout << element->getStringValue() << endl;
-                }else if ((et.compare("E") == 0 | et.compare("F") == 0 | et.compare("G") == 0 | et.compare("H") == 0) && tokens.size() == 6){
+                }else if ((et.compare("E") == 0 | et.compare("G") == 0) && tokens.size() == 6){
                     for(int k = 1; k < 5; k++){
                         //setting the nodes(string) => int if it doesnt exists
                         if (!checkVector(node, tokens[k]))
@@ -248,19 +283,55 @@ ListaObj* Parser::mapList(vector<string> lines, ofstream *file){
                         if (d) cout << scientific << element->getFloatValue() << endl;
                     }else
                         if (d) cout << element->getStringValue() << endl;
+                }else if((et.compare("F") == 0 | et.compare("H") == 0) && tokens.size() == 5){ // CCCS and CCVS
+                    for(int i = 1; i < 3; i++){
+                        if (!checkVector(node, tokens[i]))
+                            node.push_back(tokens[i]);
+                    }
+                    element->setPositiveNode(getVectorIndex(node, tokens[1]));
+                    element->setNegativeNode(getVectorIndex(node, tokens[2]));
+                    element->setControlElementString(tokens[3]);
+                    elementValue = getValue(tokens[4]);
+                    if(elementValue.type == FLOAT) {
+                        element->setFloatValue(elementValue.floatValue);
+                        element->setValueType(elementValue.type);
+                    }else {
+                        element->setStringValue(elementValue.stringValue);
+                        element->setValueType(elementValue.type);
+                    }
+                    if (d) cout << "Elemento:" << element->getAlias() << " "
+                                << element->getnD() << " " << element->getnG() << " " << element->getnS() << " ";
+                    if(element->getValueType() == FLOAT) {
+                        if (d) cout << scientific << element->getFloatValue() << endl;
+                    }else
+                    if (d) cout << element->getStringValue() << endl;
                 }else{
                     cout << "invalid file" << endl;
                     exit(1);
                 }
                 objectList->push_back(element);
+            }else if(obj->getType() == COMMAND){
+                Command *command = (Command *) obj;
+                command->setCommand(tokens[0]);
+                objectList->push_back(command);
             }
         }
         lineCount++;
     }
+    //Set controlled source correct element
+    for (auto it = objectList->begin(); it != objectList->end(); ++it) {
+        auto obj = *it;
+        if (obj->getType() == ELEMENT) {
+            Element *element = (Element *) obj;
+            if (element->getElementType().compare("F") == 0 | element->getElementType().compare("H") == 0)
+                element->setControlElement(getVectorIndex(alias, element->getControlElementString()));
+        }
+    }
 
     this->setAlias(alias);
     this->setNodes(node);
-    return objectList;
+    this->setObjectList(objectList);
+    //return objectList;
 }
 
 const vector<string> &Parser::getAlias() const {
@@ -277,6 +348,14 @@ const vector<string> &Parser::getNodes() const {
 
 void Parser::setNodes(const vector<string> &node) {
     Parser::nodes = node;
+}
+
+ListaObj *Parser::getObjectList() const {
+    return objectList;
+}
+
+void Parser::setObjectList(ListaObj* objectList) {
+    Parser::objectList = objectList;
 }
 
 

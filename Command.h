@@ -7,17 +7,20 @@
 
 #include "Constants.h"
 #include "Object.h"
+#include "Matrix.h"
+#include "Element.h"
+#include "Parser.h"
 
 class Command : public Object{
     private:
         String command;
-        int type;
     public:
         Command();
         ~Command();
-        //Command(String command);
         void setCommand(String command);
         string getCommand();
+
+        Matrix generateResult(Parser* p, ofstream* outputFile);
         int getType() override;
         void setType(int t) override;
 

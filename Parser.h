@@ -12,6 +12,14 @@
 class Parser {
     public:
         vector<string> alias, nodes;
+        ListaObj* objectList;
+
+        Parser(vector<string> lines);
+
+
+        ListaObj *getObjectList() const;
+
+        void setObjectList(ListaObj* objectList);
 
         const vector<string> &getAlias() const;
 
@@ -21,10 +29,15 @@ class Parser {
 
         void setNodes(const vector<string> &node);
 
-        ListaObj* mapList(vector<string> lines, ofstream *file);
+        ListaObj* mapList(vector<string> lines);
 
         vector<string> split(string str);
 
+        bool checkVector(vector<string> el, string str);
+
+        int getVectorIndex(vector<string> vec, string str);
+
+        void checkGroupTwo();
 };
 
 
